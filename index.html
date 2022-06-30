@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fast-xml-parser/4.0.8/fxparser.js"
+      integrity="sha512-53HyVymh+n8HTeZ6ND4oQ+yWHxupmItxAybc5lesv8CsPvyjRijNy8fOCw3Lg/IVv7OTDkIjGRwa78Jv2EQT/A==" crossorigin="anonymous"
+      referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"
+      integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A==" crossorigin="anonymous"
+      referrerpolicy="no-referrer"></script>
+    <title>rpilocater.com RSS Feed</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+
+  <body>
+    <nav class="navbar navbar-dark bg-dark fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-brand">
+          <img class="rounded-circle" alt=${feed.image[0].title[0]} height=${feed.image[0].height[0]} width=${feed.image[0].width[0]}
+            src=${feed.image[0].url[0]}>
+          <a class="text-reset text-decoration-none" href=${feed.link[0]}>${feed.title[0]}</a><br>${feed.description[0]}
+        </div>
+      </div>
+    </nav>
+    <br><br><br>
+    <div class="container pt-5 pb-5">
+      <div class="row row-cols-1 row-cols-md-3 g-4"> ${items.map(item => `<div class="col">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"><a class="text-decoration-none" href=${item.link[0]}>${item.title[0]}</a></h5>
+              <h6 class="card-subtitle">${item.category.map(catagory => `<span class="badge bg-primary">${catagory}</span>`).join('')}</h6>
+              <p class="card-text">${item.description[0]}</p>
+            </div>
+            <small class="card-footer text-muted">${item.pubDate[0]}</small>
+          </div>
+        </div>`, ).join('\n')} </div>
+    </div>
+    <script>
+      axios.get('https://apple.com');
+      const update = async () => {
+        const feed = new fxparser.XMLParser().parse(await axios.get('https://rpilocator.com/feed/'));
+        console.log(feed);
+      };
+     //update();
+    </script>
+  </body>
+
+</html>
